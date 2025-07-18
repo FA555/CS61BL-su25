@@ -19,13 +19,13 @@ public class GameLogic {
      *              if no merge occurs, then return minR.
      */
     public static int moveTileUpAsFarAsPossible(int[][] board, int row, int column, int minR) {
-        // TODO: Fill this in in tasks 2, 3, 4
+        // DONE: Fill this in in tasks 2, 3, 4
         if (board[row][column] == 0) {
             return -1;
         }
 
         int targetRow = row;
-        while (targetRow != 0 && board[targetRow - 1][column] == 0) {
+        while (targetRow > minR && board[targetRow - 1][column] == 0) {
             --targetRow;
         }
 
@@ -33,7 +33,7 @@ public class GameLogic {
         board[targetRow][column] = board[row][column];
         board[row][column] = temp;
 
-        if (targetRow != 0 && board[targetRow - 1][column] == board[targetRow][column]) {
+        if (targetRow > minR && board[targetRow - 1][column] == board[targetRow][column]) {
             // Merge the tiles
             board[targetRow - 1][column] *= 2;
             board[targetRow][column] = 0;
