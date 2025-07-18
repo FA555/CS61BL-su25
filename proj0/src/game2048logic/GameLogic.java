@@ -18,8 +18,21 @@ public class GameLogic {
      * @return      if there is a merge, returns the 1 + the row number where the merge occurred.
      *              if no merge occurs, then return minR.
      */
-    public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
+    public static int moveTileUpAsFarAsPossible(int[][] board, int row, int column, int minR) {
         // TODO: Fill this in in tasks 2, 3, 4
+        if (board[row][column] == 0) {
+            return 0;
+        }
+
+        int targetRow = row;
+        while (targetRow != 0 && board[targetRow - 1][column] == 0) {
+            --targetRow;
+        }
+
+        int temp = board[targetRow][column];
+        board[targetRow][column] = board[row][column];
+        board[row][column] = temp;
+
         return 0;
     }
 
