@@ -21,7 +21,7 @@ public class GameLogic {
     public static int moveTileUpAsFarAsPossible(int[][] board, int row, int column, int minR) {
         // TODO: Fill this in in tasks 2, 3, 4
         if (board[row][column] == 0) {
-            return 0;
+            return -1;
         }
 
         int targetRow = row;
@@ -33,7 +33,14 @@ public class GameLogic {
         board[targetRow][column] = board[row][column];
         board[row][column] = temp;
 
-        return 0;
+        if (targetRow != 0 && board[targetRow - 1][column] == board[targetRow][column]) {
+            // Merge the tiles
+            board[targetRow - 1][column] *= 2;
+            board[targetRow][column] = 0;
+            return targetRow;
+        }
+
+        return minR;
     }
 
     /**
