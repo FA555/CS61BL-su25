@@ -47,8 +47,18 @@ public class IntList {
      * @return The element at [position]
      */
     public int get(int position) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        if (position < 0) {
+            throw new IllegalArgumentException("Index cannot be negative.");
+        }
+        IntList current = this;
+        for (int i = 0; i < position; i++) {
+            current = current.next;
+            if (current == null) {
+                throw new IllegalArgumentException("Index out of bounds.");
+            }
+        }
+        return current.item;
     }
 
     /**
@@ -58,8 +68,18 @@ public class IntList {
      * @return The String representation of the list.
      */
     public String toString() {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        StringBuilder sb = new StringBuilder();
+        IntList current = this;
+        while (current != null) {
+            sb.append(current.item);
+            sb.append(" ");
+            current = current.next;
+        }
+        if (!sb.isEmpty()) {
+            sb.setLength(sb.length() - 1);
+        }
+        return sb.toString();
     }
 
     /**
@@ -81,8 +101,17 @@ public class IntList {
             return false;
         }
         if (obj instanceof IntList otherList) {
-            // TODO: your code here
-
+            // DONE: your code here
+            IntList currentThis = this;
+            IntList currentOther = otherList;
+            while (currentThis != null && currentOther != null) {
+                if (currentThis.item != currentOther.item) {
+                    return false;
+                }
+                currentThis = currentThis.next;
+                currentOther = currentOther.next;
+            }
+            return currentThis == null && currentOther == null;
         }
         return false;
     }
@@ -93,7 +122,12 @@ public class IntList {
      * @param value, the int to be added.
      */
     public void add(int value) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        IntList current = this;
+        while (current.next != null) {
+            current = current.next;
+        }
+        current.next = new IntList(value);
     }
 
     /**
@@ -102,8 +136,14 @@ public class IntList {
      * @return smallest element in the list
      */
     public int smallest() {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        IntList current = this;
+        int min = Integer.MAX_VALUE;
+        while (current != null) {
+            min = Math.min(min, current.item);
+            current = current.next;
+        }
+        return min;
     }
 
     /**
@@ -112,8 +152,14 @@ public class IntList {
      * @return The sum of squares of all elements.
      */
     public int squaredSum() {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        int sum = 0;
+        IntList current = this;
+        while (current != null) {
+            sum += current.item * current.item;
+            current = current.next;
+        }
+        return sum;
     }
 
     /**
@@ -170,8 +216,24 @@ public class IntList {
      * @return new list with A followed by B.
      */
     public static IntList catenate(IntList A, IntList B) {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        if (A == null) {
+            return B;
+        }
+        if (B == null) {
+            return A;
+        }
+
+        IntList newList = new IntList(A.item);
+        IntList currentNew = newList;
+        IntList currentA = A.next;
+        while (currentA != null) {
+            currentNew.next = new IntList(currentA.item);
+            currentNew = currentNew.next;
+            currentA = currentA.next;
+        }
+        currentNew.next = B;
+        return newList;
     }
 
     /**
@@ -183,7 +245,19 @@ public class IntList {
      * @return new list with A followed by B.
      */
     public static IntList dcatenate(IntList A, IntList B) {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        if (A == null) {
+            return B;
+        }
+        if (B == null) {
+            return A;
+        }
+
+        IntList currentA = A;
+        while (currentA.next != null) {
+            currentA = currentA.next;
+        }
+        currentA.next = B;
+        return A;
     }
 }

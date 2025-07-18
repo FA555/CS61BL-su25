@@ -153,11 +153,40 @@ public class IntListTest {
 
     @Test
     public void testCatenate() {
-        // TODO: Add tests
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.of(4, 5, 6);
+        IntList result = IntList.catenate(A, B);
+        assertWithMessage("Catenated list should be (1, 2, 3, 4, 5, 6)").that(result).isEqualTo(IntList.of(1, 2, 3, 4, 5, 6));
+        assertWithMessage("A should be unchanged").that(A).isEqualTo(IntList.of(1, 2, 3));
+        assertWithMessage("B should be unchanged").that(B).isEqualTo(IntList.of(4, 5, 6));
+
+        IntList empty = IntList.of();
+        IntList resultEmpty = IntList.catenate(empty, empty);
+        assertWithMessage("Catenated empty lists should be empty").that(resultEmpty).isNull();
+
+        IntList singleA = IntList.of(1);
+        IntList singleB = IntList.of(2);
+        IntList resultSingle = IntList.catenate(singleA, singleB);
+        assertWithMessage("Catenated single lists should be (1, 2)").that(resultSingle).isEqualTo(IntList.of(1, 2));
     }
 
     @Test
     public void testDCatenate() {
-        // TODO: Add test
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.of(4, 5, 6);
+        IntList result = IntList.dcatenate(A, B);
+        assertWithMessage("Catenated list should be (1, 2, 3, 4, 5, 6)").that(result).isEqualTo(IntList.of(1, 2, 3, 4, 5, 6));
+        assertWithMessage("A should be modified to (1, 2, 3, 4, 5, 6)").that(A).isEqualTo(IntList.of(1, 2, 3, 4, 5, 6));
+        assertWithMessage("B should remain unchanged").that(B).isEqualTo(IntList.of(4, 5, 6));
+
+        IntList empty = IntList.of();
+        IntList resultEmpty = IntList.dcatenate(empty, empty);
+        assertWithMessage("Catenated empty lists should be empty").that(resultEmpty).isNull();
+
+        IntList singleA = IntList.of(1);
+        IntList singleB = IntList.of(2);
+        IntList resultSingle = IntList.dcatenate(singleA, singleB);
+        assertWithMessage("Catenated single lists should be (1, 2)").that(resultSingle).isEqualTo(IntList.of(1, 2));
+        assertWithMessage("A should be modified to (1, 2)").that(singleA).isEqualTo(IntList.of(1, 2));
     }
 }
