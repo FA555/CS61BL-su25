@@ -21,7 +21,7 @@ public class GameLogic {
     public static int moveTileUpAsFarAsPossible(int[][] board, int row, int column, int minR) {
         // DONE: Fill this in in tasks 2, 3, 4
         if (board[row][column] == 0) {
-            return -1;
+            return minR;
         }
 
         int targetRow = row;
@@ -51,8 +51,11 @@ public class GameLogic {
      * @param c         the column to tilt up.
      */
     public static void tiltColumn(int[][] board, int c) {
-        // TODO: fill this in in task 5
-        return;
+        // DONE: fill this in in task 5
+        int minR = 0;
+        for (int r = 0; r < board.length; ++r) {
+            minR = moveTileUpAsFarAsPossible(board, r, c, minR);
+        }
     }
 
     /**
