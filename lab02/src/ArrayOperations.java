@@ -1,4 +1,6 @@
-/** Array Operations Class. Optional Exercise **/
+/**
+ * Array Operations Class. Optional Exercise
+ **/
 public class ArrayOperations {
     /**
      * Delete the value at the given position in the argument array, shifting
@@ -32,12 +34,12 @@ public class ArrayOperations {
         values[pos] = newInt;
     }
 
-    /** 
+    /**
      * Returns a new array consisting of the elements of A followed by the
-     *  the elements of B. 
+     * the elements of B.
      */
     public static int[] catenate(int[] A, int[] B) {
-        // TODO: fill out this function
+        // DONE: fill out this function
         int[] result = new int[A.length + B.length];
         System.arraycopy(A, 0, result, 0, A.length);
         System.arraycopy(B, 0, result, A.length, B.length);
