@@ -26,6 +26,31 @@ public class SLListTest {
 
     @Test
     public void testSLListReverse() {
-        // TODO: Add tests
+        // DONE: Add tests
+        SLList test = new SLList();
+
+        test.reverse();
+        assertWithMessage("Reversing an empty list should not change it").that(test.equals(new SLList())).isTrue();
+
+        test.addFirst(1); // test: {1}
+        test.reverse(); // test: {1}
+        assertWithMessage("Reversing a single element list should not change it").that(test.equals(SLList.of(1))).isTrue();
+
+        test.addFirst(2); // test: {2, 1}
+        test.reverse(); // test: {1, 2}
+        assertWithMessage("Reversing a two element list should swap the elements").that(test.equals(SLList.of(1, 2))).isTrue();
+
+        test.addFirst(3); // test: {3, 1, 2}
+        test.reverse(); // test: {2, 1, 3}
+        assertWithMessage("Reversing a three element list should reverse the order").that(test.equals(SLList.of(2, 1, 3))).isTrue();
+
+        test.addFirst(4); // test: {4, 2, 1, 3}
+        test.reverse(); // test: {3, 1, 2, 4}
+        assertWithMessage("Reversing a four element list should reverse the order").that(test.equals(SLList.of(3, 1, 2, 4))).isTrue();
+
+        test.addFirst(5); // test: {5, 3, 1, 2, 4}
+        test.addFirst(6); // test: {6, 5, 3, 1, 2, 4}
+        test.reverse(); // test: {4, 2, 1, 3, 5, 6}
+        assertWithMessage("Reversing a six element list should reverse the order").that(test.equals(SLList.of(4, 2, 1, 3, 5, 6))).isTrue();
     }
 }

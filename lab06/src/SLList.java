@@ -114,11 +114,32 @@ public class SLList {
 
     /** Adds x to the list at the specified index. */
     public void add(int index, int x) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative: " + index);
+        }
+
+        index = Math.min(index, size);
+
+        IntListNode current = sentinel;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        IntListNode next = current.next; // Custom from C++, otherwise the behavior is undefined.
+        current.next = new IntListNode(x, next);
+        ++size;
     }
 
     /** Destructively reverses this list. */
     public void reverse() {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        IntListNode prev = sentinel;
+        for (IntListNode current = sentinel.next; current != sentinel; ) {
+            IntListNode next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        sentinel.next = prev;
     }
 }
