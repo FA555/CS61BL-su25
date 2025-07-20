@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Represents an example of how a website might model a user. */
-public class User {
+public class User implements Comparable<User> {
     /* TODO: Make Users a comparable type.
         Use parameterization (ie. <>) to ensure that User can only be
         used to compare against other Users. */
@@ -94,5 +94,19 @@ public class User {
         for (User user : users) {
             System.out.println(user);
         }
+    }
+
+    @Override
+    public int compareTo(User o) {
+        if (this.id != o.id) {
+            return Integer.compare(this.id, o.id);
+        }
+
+        int nameComparison = this.name.compareTo(o.name);
+        if (nameComparison != 0) {
+            return nameComparison;
+        }
+
+        return this.email.compareTo(o.email);
     }
 }
