@@ -131,7 +131,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B");
     }
 
-    class ArrayDequeIterator implements Iterator<T> {
+    private class ArrayDequeIterator implements Iterator<T> {
         private int currentIndex = indexInc(nextFirst);
 
         @Override
