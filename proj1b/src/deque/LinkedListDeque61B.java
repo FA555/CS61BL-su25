@@ -106,6 +106,33 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         return getRecursiveHelper(sentinel.next, index);
     }
 
+    @Override
+    @Nonnull
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Deque61B<?> other) || size != other.size()) {
+            return false;
+        }
+
+        Iterator<T> iter = iterator();
+        Iterator<?> thatIter = other.iterator();
+        while (iter.hasNext() && thatIter.hasNext()) {
+            if (!iter.next().equals(thatIter.next())) {
+                return false;
+            }
+        }
+        return !iter.hasNext() && !thatIter.hasNext();
+    }
+
+    @Override
+    public String toString() {
+        return toList().toString();
+    }
+
     private class LinkedListDequeIterator implements Iterator<T> {
         private Node current = sentinel.next;
 
@@ -124,12 +151,6 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
             current = current.next;
             return item;
         }
-    }
-
-    @Override
-    @Nonnull
-    public Iterator<T> iterator() {
-        return new LinkedListDequeIterator();
     }
 
     private class Node {

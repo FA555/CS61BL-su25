@@ -1,6 +1,5 @@
 import deque.ArrayDeque61B;
 import deque.Deque61B;
-
 import jh61b.utils.Reflection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -85,7 +84,7 @@ public class ArrayDeque61BTest {
         assertThat(lld1.removeFirst()).isEqualTo(114);
         assertThat(lld1.toList()).isEmpty();
 
-        lld1.addLast(-514);
+        lld1.addFirst(-514);
         lld1.addLast(1919);
         lld1.addFirst(810);
         assertThat(lld1.removeFirst()).isEqualTo(810);
@@ -106,6 +105,25 @@ public class ArrayDeque61BTest {
         lld1.addFirst(810);
         assertThat(lld1.removeLast()).isEqualTo(1919);
         assertThat(lld1.toList()).containsExactly(810, -514).inOrder();
+    }
+
+    @Test
+    public void resizeTest() {
+        Deque61B<Integer> lld1 = new ArrayDeque61B<>();
+        for (int i = 0; i < 100; ++i) {
+            lld1.addLast(i);
+        }
+        for (int i = 0; i < 100; ++i) {
+            lld1.removeFirst();
+        }
+
+        Deque61B<Integer> lld2 = new ArrayDeque61B<>();
+        for (int i = 0; i < 100; ++i) {
+            lld2.addFirst(i);
+        }
+        for (int i = 0; i < 100; ++i) {
+            lld2.removeLast();
+        }
     }
 
     @Test

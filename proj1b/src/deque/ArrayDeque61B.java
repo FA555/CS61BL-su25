@@ -131,6 +131,33 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         throw new UnsupportedOperationException("No need to implement getRecursive for ArrayDeque61B");
     }
 
+    @Override
+    @Nonnull
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Deque61B<?> other) || size != other.size()) {
+            return false;
+        }
+
+        Iterator<T> iter = iterator();
+        Iterator<?> otherIter = other.iterator();
+        while (iter.hasNext() && otherIter.hasNext()) {
+            if (!iter.next().equals(otherIter.next())) {
+                return false;
+            }
+        }
+        return !iter.hasNext() && !otherIter.hasNext();
+    }
+
+    @Override
+    public String toString() {
+        return toList().toString();
+    }
+
     private class ArrayDequeIterator implements Iterator<T> {
         private int currentIndex = indexInc(nextFirst);
 
@@ -149,30 +176,5 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
             currentIndex = indexInc(currentIndex);
             return item;
         }
-    }
-
-    @Override
-    @Nonnull
-    public Iterator<T> iterator() {
-        return new ArrayDequeIterator();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Deque61B<?> other) || size != other.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < size; i++) {
-            if (!get(i).equals(other.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return toList().toString();
     }
 }
