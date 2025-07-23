@@ -48,7 +48,27 @@ public class BinaryTree<T> {
     }
 
     /** Optional constructor, see optional exercise in lab (or last week's theoretical lab). */
-    public BinaryTree(ArrayList<T> pre, ArrayList<T> in) { }
+    public BinaryTree(ArrayList<T> pre, ArrayList<T> in) {
+        if (pre == null || in == null || pre.size() != in.size()) {
+            throw new IllegalArgumentException("Invalid input arrays");
+        }
+        root = buildTree(pre, in, 0, pre.size(), 0, in.size());
+    }
+
+    private TreeNode<T> buildTree(ArrayList<T> pre, ArrayList<T> in, int preStart, int preEnd, int inStart, int inEnd) {
+        if (preStart >= preEnd || inStart >= inEnd) {
+            return null;
+        }
+
+        T rootValue = pre.get(preStart);
+        int rootIndex = in.indexOf(rootValue);
+        int leftSize = rootIndex - inStart;
+
+        TreeNode<T> root = new TreeNode<>(rootValue);
+        root.left = buildTree(pre, in, preStart + 1, preStart + leftSize + 1, inStart, rootIndex);
+        root.right = buildTree(pre, in, preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd);
+        return root;
+    }
 
     /* Print the values in the tree in preorder. */
     public void printPreorder() {
@@ -157,21 +177,65 @@ public class BinaryTree<T> {
 
     /* Returns the height of the tree. */
     public int height() {
-        // TODO: YOUR CODE HERE
-        return 0;
+        // DONE: YOUR CODE HERE
+        return heightHelper(root);
+    }
+
+    private int heightHelper(TreeNode<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + Math.max(heightHelper(node.left), heightHelper(node.right));
     }
 
     /* Returns true if the tree's left and right children are the same height
        and are themselves completely balanced. */
     public boolean isCompletelyBalanced() {
-        // TODO: YOUR CODE HERE
-        return false;
+        // DONE: YOUR CODE HERE
+        return isCompletelyBalancedHelper(root) >= 0;
     }
 
-    /* Returns a BinaryTree representing the Fibonacci calculation for N. */
-    public static BinaryTree<Integer> fibTree(int N) {
-        BinaryTree<Integer> result = new BinaryTree<Integer>();
+    /**
+     * Returns the height of the tree if it is completely balanced,
+     * or a number < 0 if it is not.
+     */
+    private int isCompletelyBalancedHelper(TreeNode<T> node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftHeight = isCompletelyBalancedHelper(node.left);
+        if (leftHeight < 0) {
+            return -1;
+        }
+
+        int rightHeight = isCompletelyBalancedHelper(node.right);
+        if (rightHeight < 0 || leftHeight != rightHeight) {
+            return -1;
+        }
+
+        return 1 + leftHeight;
+    }
+
+    /* Returns a BinaryTree representing the Fibonacci calculation for n. */
+    public static BinaryTree<Integer> fibTree(int n) {
+        BinaryTree<Integer> result = new BinaryTree<>();
         // TODO: YOUR CODE HERE
-        return null;
+        if (n < 0) {
+            return null;
+        }
+        return new BinaryTree<>(fibTreeHelper(n));
+    }
+
+    private static TreeNode<Integer> fibTreeHelper(int n) {
+        if (n == 0) {
+            return new TreeNode<>(0);
+        }
+        if (n == 1) {
+            return new TreeNode<>(1);
+        }
+        TreeNode<Integer> left = fibTreeHelper(n - 1);
+        TreeNode<Integer> right = fibTreeHelper(n - 2);
+        return new TreeNode<>(left.item + right.item, left, right);
     }
 }
