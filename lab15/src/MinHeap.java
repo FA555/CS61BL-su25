@@ -190,6 +190,7 @@ public class MinHeap<E extends Comparable<E>> {
         E minElement = getElement(1);
         swap(1, size);
         contents.remove(size--);
+        indexMap.remove(minElement);
         bubbleDown(1);
         return minElement;
     }
