@@ -1,12 +1,20 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 /* A MinHeap class of Comparable elements backed by an ArrayList. */
 public class MinHeap<E extends Comparable<E>> {
 
     /* An ArrayList that stores the elements in this MinHeap. */
-    private ArrayList<E> contents;
+    private final ArrayList<E> contents;
     private int size;
-    // TODO: YOUR CODE HERE (no code should be needed here if not implementing the more optimized version)
+    // DONE: YOUR CODE HERE (no code should be needed here if not implementing the more optimized version)
+    HashMap<E, Integer> indexMap = new HashMap<>();
+
+    private void updateIndexMap(E element, int index) {
+        assert element != null;
+        indexMap.put(element, index);
+    }
 
     /* Initializes an empty MinHeap. */
     public MinHeap() {
@@ -30,6 +38,7 @@ public class MinHeap<E extends Comparable<E>> {
             contents.add(null);
         }
         contents.set(index, element);
+        updateIndexMap(element, index);
     }
 
     /* Swaps the elements at the two indices. */
@@ -172,10 +181,10 @@ public class MinHeap<E extends Comparable<E>> {
             return null;
         }
 
-//        swap(1, size--);
-//        E minElement = contents.removeLast();
-//        bubbleDown(1);
-//        return minElement;
+        // swap(1, size--);
+        // E minElement = contents.removeLast();
+        // bubbleDown(1);
+        // return minElement;
 
         // The autograder runs an old version of Java which does not support removeLast.
         E minElement = getElement(1);
@@ -190,18 +199,33 @@ public class MinHeap<E extends Comparable<E>> {
        not exist in the MinHeap, throw a NoSuchElementException. Item equality
        should be checked using .equals(), not ==. */
     public void update(E element) {
-        // TODO: OPTIONAL
+        // CANNOT BE DONE: OPTIONAL
+        /// The demand of this task is very unclear:
+        ///
+        /// - What if the element equals to another element in the heap, i.e., breaks the
+        ///   invariants restricted by the insert method?
+        /// - How do I know if I need to bubble up or bubble down? It is nearly impossible
+        ///   to know how the element has been mutated since the initial insert.
+        ///
+        ///  The root is:
+        ///  How can an element's priority change simultaneously as can be identified by
+        ///  the .equals() method? An object's ordering should not be determined by two
+        ///  different methods at the same time!
+
+        if (element == null || !contains(element)) {
+            throw new NoSuchElementException("Element not found in MinHeap: " + element);
+        }
+        int index = indexMap.get(element);
+        assert getElement(index) != null && getElement(index).equals(element) : "Element not found in MinHeap: " + element;
+        setElement(index, element);
+        bubbleUp(index);
+        bubbleDown(index);
     }
 
     /* Returns true if ELEMENT is contained in the MinHeap. Item equality should
        be checked using .equals(), not ==. */
     public boolean contains(E element) {
-        // OPTIONAL: OPTIMIZE THE SPEED OF THIS TO MAKE IT CONSTANT
-        for (int i = 1; i < contents.size(); i++) {
-            if (element.equals(contents.get(i))) {
-                return true;
-            }
-        }
-        return false;
+        // DONE OPTIONAL: OPTIMIZE THE SPEED OF THIS TO MAKE IT CONSTANT
+        return indexMap.containsKey(element);
     }
 }
