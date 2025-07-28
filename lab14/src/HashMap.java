@@ -6,14 +6,14 @@ public class HashMap<K, V> implements Map61BL<K, V> {
     private static final int INITIAL_CAPACITY = 16;
     private static final double LOAD_FACTOR_THRESHOLD = 0.75;
 
-    /* TODO: Instance variables here */
+    /* DONE: Instance variables here */
     private final double loadFactorThreshold;
     private final int initialCapacity;
 
     private LinkedList<Entry<K, V>>[] buckets;
     private int size;
 
-    /* TODO: Constructors here */
+    /* DONE: Constructors here */
     @SuppressWarnings("unchecked")
     public HashMap(int initialCapacity, double loadFactor) {
         size = 0;
@@ -59,7 +59,7 @@ public class HashMap<K, V> implements Map61BL<K, V> {
         buckets = newBuckets;
     }
 
-    private void try_resize() {
+    private void tryResize() {
         if (loadFactor() > loadFactorThreshold) {
             resize();
         }
@@ -69,7 +69,7 @@ public class HashMap<K, V> implements Map61BL<K, V> {
         return buckets.length;
     }
 
-    /* TODO: Interface methods here */
+    /* DONE: Interface methods here */
     @SuppressWarnings("unchecked")
     @Override
     public void clear() {
@@ -105,7 +105,7 @@ public class HashMap<K, V> implements Map61BL<K, V> {
         remove(key);
         buckets[hash(key)].add(new Entry<>(key, value));
         ++size;
-        try_resize();
+        tryResize();
     }
 
     @Override
