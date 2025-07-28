@@ -69,61 +69,120 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Returns the index of the left child of the element at index INDEX. */
     private int getLeftOf(int index) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        return index * 2;
     }
 
     /* Returns the index of the right child of the element at index INDEX. */
     private int getRightOf(int index) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        return index * 2 + 1;
     }
 
     /* Returns the index of the parent of the element at index INDEX. */
     private int getParentOf(int index) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        return index / 2;
     }
 
     /* Returns the index of the smaller element. At least one index has a
        non-null element. If the elements are equal, return either index. */
     private int min(int index1, int index2) {
-        // TODO: YOUR CODE HERE
-        return -1;
+        // DONE: YOUR CODE HERE
+        E e1 = getElement(index1);
+        if (e1 == null) {
+            return index2;
+        }
+
+        E e2 = getElement(index2);
+        if (e2 == null) {
+            return index1;
+        }
+
+        return e1.compareTo(e2) <= 0 ? index1 : index2;
     }
 
     /* Returns but does not remove the smallest element in the MinHeap. */
     public E findMin() {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        return getElement(1);
     }
 
     /* Bubbles up the element currently at index INDEX. */
     private void bubbleUp(int index) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        while (index > 1) {
+            int parent = getParentOf(index);
+            E currentElement = getElement(index);
+            E parentElement = getElement(parent);
+
+            assert currentElement != null && parentElement != null;
+            if (currentElement.compareTo(parentElement) < 0) {
+                swap(index, parent);
+                index = parent;
+            } else {
+                break;
+            }
+        }
     }
 
     /* Bubbles down the element currently at index INDEX. */
     private void bubbleDown(int index) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        while (getLeftOf(index) < contents.size()) {
+            int target = min(getLeftOf(index), getRightOf(index));
+            E currentElement = getElement(index);
+            E targetElement = getElement(target);
+
+            assert currentElement != null && targetElement != null;
+            if (currentElement.compareTo(targetElement) > 0) {
+                swap(index, target);
+                index = target;
+            } else {
+                break;
+            }
+        }
     }
 
     /* Returns the number of elements in the MinHeap. */
     public int size() {
-        // TODO: YOUR CODE HERE
-        return 0;
+        // DONE: YOUR CODE HERE
+        return size;
     }
 
     /* Inserts ELEMENT into the MinHeap. If ELEMENT is already in the MinHeap,
        throw an IllegalArgumentException.*/
     public void insert(E element) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        if (element == null) {
+            throw new IllegalArgumentException("Cannot insert null into MinHeap.");
+        }
+        if (contains(element)) {
+            throw new IllegalArgumentException("Element already exists in MinHeap: " + element);
+        }
+
+        setElement(++size, element);
+        bubbleUp(size);
     }
 
     /* Returns and removes the smallest element in the MinHeap, or null if there are none. */
     public E removeMin() {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        if (size == 0) {
+            return null;
+        }
+
+//        swap(1, size--);
+//        E minElement = contents.removeLast();
+//        bubbleDown(1);
+//        return minElement;
+
+        // The autograder runs an old version of Java which does not support removeLast.
+        E minElement = getElement(1);
+        swap(1, size);
+        contents.remove(size--);
+        bubbleDown(1);
+        return minElement;
     }
 
     /* Replaces and updates the position of ELEMENT inside the MinHeap, which
