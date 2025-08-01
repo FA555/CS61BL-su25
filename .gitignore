@@ -74,5 +74,5 @@ synsets1000-subgraph.txt
 **/.idea/**
 
 *.class
-/*.java
+*.bak
 
