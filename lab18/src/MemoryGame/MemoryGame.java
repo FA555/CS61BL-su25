@@ -56,8 +56,13 @@ public class MemoryGame {
     }
 
     public String generateRandomString(int n) {
-        //TODO: Generate random string of letters of length n
-        return null;
+        // DONE: Generate random string of letters of length n
+        StringBuilder sb = new StringBuilder(n);
+        for (int i = 0; i < n; ++i) {
+            int randomIndex = RandomUtils.uniform(this.rand, CHARACTERS.length);
+            sb.append(CHARACTERS[randomIndex]);
+        }
+        return sb.toString();
     }
 
     public void drawFrame(String s) {
@@ -88,22 +93,52 @@ public class MemoryGame {
     }
 
     public void flashSequence(String letters) {
-        //TODO: Display each character in letters, making sure to blank the screen between letters
+        // DONE: Display each character in letters, making sure to blank the screen between letters
+        for (char letter : letters.toCharArray()) {
+            this.drawFrame(String.valueOf(letter));
+            StdDraw.pause(1000);
+            this.drawFrame("");
+            StdDraw.pause(500);
+        }
     }
 
     public String solicitNCharsInput(int n) {
-        //TODO: Read n letters of player input
-        return null;
+        // DONE: Read n letters of player input
+        StringBuilder input = new StringBuilder();
+        while (input.length() < n) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char c = StdDraw.nextKeyTyped();
+                if (Character.isLetter(c)) {
+                    input.append(c);
+                    this.drawFrame(input.toString());
+                }
+            }
+        }
+        return input.toString();
     }
 
     public void startGame() {
-        //TODO: Set any relevant variables before the game starts
+        // DONE: Set any relevant variables before the game starts
         this.gameOver = false;
+        this.round = 1;
 
-        //TODO: Establish Engine loop
+        // DONE: Establish Engine loop
         while (!gameOver) {
-            drawFrame("You should implement this game!");
+            this.playerTurn = false;
+            drawFrame("Round: " + this.round);
             StdDraw.pause(1000);
+
+            String randomString = generateRandomString(this.round);
+            flashSequence(randomString);
+
+            this.playerTurn = true;
+            String playerInput = solicitNCharsInput(this.round);
+            StdDraw.pause(1000);
+            if (!playerInput.equals(randomString)) {
+                this.gameOver = true;
+                break;
+            }
+            ++this.round;
         }
 
         this.drawFrame("Game Over! You made it to round: " + this.round);
