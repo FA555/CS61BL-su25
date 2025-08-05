@@ -19,22 +19,30 @@ public class TimingTests {
 
     /* The upper and lower bounds of the range of array sizes to test. */
     // TODO: You may want to change these values if the tests are taking too long.
-    static final int UPPER_BOUND = 200000;
+    static final int UPPER_BOUND = 1000000;
     static final int LOWER_BOUND = 20000;
     static final int STEP_SIZE = 20000;
 
     /* The seed used to generate random numbers. Ensures that every algorithm sorts the same set of numbers.*/
     static final long SEED = 61;
 
+    private static void checkArraySorted(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                throw new RuntimeException("Array is not sorted: " + arr[i] + " > " + arr[i + 1]);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         List<XYChart> charts = new ArrayList<>();
 
         /* Run the timing tests and store the results. */
-        // TODO: You can comment out the tests you don't want to run.
+        // DONE: You can comment out the tests you don't want to run.
         charts.add(timeHeapSort());
         charts.add(timeMergeSort());
-        charts.add(timeInsertionSort());
-        charts.add(timeSelectionSort());
+//        charts.add(timeInsertionSort());
+//        charts.add(timeSelectionSort());
         charts.add(timeQuickSort());
 
         /* Display the charts in a window. */
@@ -75,6 +83,7 @@ public class TimingTests {
             Stopwatch sw = new Stopwatch();
             InsertionSort.sort(arr);
             times.add(sw.elapsedTime());
+            checkArraySorted(arr);
         }
 
         TimingData td = new TimingData(Ns, times);
