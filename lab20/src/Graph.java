@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
 import java.util.*;
 
 /* A mutable and finite Graph object. Edge labels are stored via a HashMap
@@ -119,13 +121,67 @@ public class Graph {
     }
 
     public Graph prims(int start) {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        HashMap<Integer, Boolean> visited = new HashMap<>();
+        HashMap<Integer, Edge> distFromTree = new HashMap<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new PrimVertexComparator(distFromTree));
+        Graph mst = new Graph();
+
+        for (Integer v : getAllVertices()) {
+            visited.put(v, false);
+            distFromTree.put(v, new Edge(-1, -1, Integer.MAX_VALUE));
+        }
+        distFromTree.put(start, new Edge(-1, start, 0));
+        pq.add(start);
+
+        while (!pq.isEmpty()) {
+            Integer current = pq.poll();
+            if (visited.get(current)) {
+                continue;
+            }
+            visited.put(current, true);
+            if (!current.equals(start)) {
+                mst.addEdge(distFromTree.get(current));
+            }
+
+            for (Edge e : getEdges(current)) {
+                int neighbor = e.getDest();
+                if (!visited.get(neighbor) && e.getWeight() < distFromTree.get(neighbor).getWeight()) {
+                    distFromTree.put(neighbor, e);
+                    pq.add(neighbor);
+                }
+            }
+        }
+
+        if (mst.getAllVertices().size() != getAllVertices().size()) {
+            return null;
+        }
+        return mst;
     }
 
     public Graph kruskals() {
-        // TODO: YOUR CODE HERE
-        return null;
+        // DONE: YOUR CODE HERE
+        Graph mst = new Graph();
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(getAllVertices().size());
+
+        List<Edge> edgesCopy = getAllEdges().stream().sorted().toList();
+        for (Edge e : edgesCopy) {
+            int v1 = e.getSource();
+            int v2 = e.getDest();
+            if (!uf.connected(v1, v2)) {
+                uf.union(v1, v2);
+                mst.addEdge(e);
+
+                if (mst.getAllEdges().size() == getAllVertices().size() - 1) {
+                    break;
+                }
+            }
+        }
+
+        if (mst.getAllEdges().size() != getAllVertices().size() - 1) {
+            return null;
+        }
+        return mst;
     }
 
     /* A comparator to help you compare vertices in terms of
@@ -133,20 +189,20 @@ public class Graph {
      * Feel free to uncomment the below code if you'd like to use it;
      * otherwise, you may implement your own comparator.
      */
-//    private class PrimVertexComparator implements Comparator<Integer> {
-//        private HashMap<Integer, Edge> distFromTree;
-//
-//        public PrimVertexComparator(HashMap<Integer, Edge> distFromTree) {
-//            this.distFromTree = distFromTree;
-//        }
-//
-//        @Override
-//        public int compare(Integer o1, Integer o2) {
-//            int edgeCompRes = distFromTree.get(o1).compareTo(distFromTree.get(o2));
-//            if (edgeCompRes == 0) {
-//                return o1 - o2;
-//            }
-//            return edgeCompRes;
-//        }
-//    }
+    private class PrimVertexComparator implements Comparator<Integer> {
+        private final HashMap<Integer, Edge> distFromTree;
+
+        public PrimVertexComparator(HashMap<Integer, Edge> distFromTree) {
+            this.distFromTree = distFromTree;
+        }
+
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            int edgeCompRes = distFromTree.get(o1).compareTo(distFromTree.get(o2));
+            if (edgeCompRes == 0) {
+                return o1 - o2;
+            }
+            return edgeCompRes;
+        }
+    }
 }
