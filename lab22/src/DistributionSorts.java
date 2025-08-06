@@ -5,7 +5,18 @@ public class DistributionSorts {
     /* Destructively sorts ARR using counting sort. Assumes that ARR contains
        only 0, 1, ..., 9. */
     public static void countingSort(int[] arr) {
-        // TODO: YOUR CODE HERE
+        // DONE: YOUR CODE HERE
+        int[] counts = new int[10];
+        for (int num : arr) {
+            ++counts[num];
+        }
+
+        int index = 0;
+        for (int i = 0; i < counts.length; ++i) {
+            while (counts[i]-- > 0) {
+                arr[index++] = i;
+            }
+        }
     }
 
     /* Destructively sorts ARR using LSD radix sort. */
@@ -21,6 +32,20 @@ public class DistributionSorts {
        rightmost digit of each number. */
     private static void countingSortOnDigit(int[] arr, int digit) {
         // TODO: YOUR CODE HERE
+        int[] counts = new int[10];
+        int[][] bucket = new int[10][arr.length];
+
+        for (int num : arr) {
+            int d = getDigit(num, digit);
+            bucket[d][counts[d]++] = num;
+        }
+
+        int index = 0;
+        for (int i = 0; i < bucket.length; ++i) {
+            for (int j = 0; j < counts[i]; ++j) {
+                arr[index++] = bucket[i][j];
+            }
+        }
     }
 
     /* Returns the largest number of digits that any integer in ARR has. */
