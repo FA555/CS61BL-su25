@@ -3,6 +3,7 @@ package main;
 import browser.NgordnetServer;
 import ngrams.NGramMap;
 import org.slf4j.LoggerFactory;
+import wordnet.WordNet;
 
 public class Main {
     // ngrams files
@@ -30,11 +31,12 @@ public class Main {
     public static void main(String[] args) {
         NgordnetServer hns = new NgordnetServer();
         NGramMap ngm = new NGramMap(WORDS_FILE, TOTAL_COUNTS_FILE);
+        WordNet wn = new WordNet(LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
 
         hns.startUp();
         hns.register("history", new HistoryHandler(ngm));
         hns.register("historytext", new HistoryTextHandler(ngm));
-//        hns.register("hyponyms", new HyponymsHandler());
+        hns.register("hyponyms", new HyponymsHandler(wn));
 
         System.out.println("Finished server startup! Visit http://localhost:4567/ngordnet.html");
     }
