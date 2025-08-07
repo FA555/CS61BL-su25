@@ -60,6 +60,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         if (limit < hyponymsList.size()) {
             hyponymsList = hyponymsList.subList(0, limit);
         }
+        Collections.sort(hyponymsList);
         return hyponymsList.toString();
     }
 }
