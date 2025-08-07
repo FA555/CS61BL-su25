@@ -21,6 +21,20 @@ public class TestGraph {
 
     // DONE: add more tests!
 
+    @Test
+    public void testPath2() {
+        Graph g = new Graph(2);
+        g.addUndirectedEdge(0, 1);
+
+        assertWithMessage("Expected pathExists()==true between 2 vertices, one edge.").that(g.pathExists(0, 1)).isTrue();
+        assertWithMessage("Expected pathExists()==true between 2 vertices, one edge.").that(g.pathExists(1, 0)).isTrue();
+
+        List<Integer> path1 = g.path(0, 1);
+        List<Integer> path2 = g.path(1, 0);
+        assertWithMessage("Expected path from 0 to 1 to contain 0 and 1.").that(path1).containsExactly(0, 1).inOrder();
+        assertWithMessage("Expected path from 1 to 0 to contain 1 and 0.").that(path2).containsExactly(1, 0).inOrder();
+    }
+
     /**
      * 验证 order 是一个合法的拓扑序：包含 [0..n-1] 且对每条有向边 (u->v) 都满足 pos(u) < pos(v)
      */

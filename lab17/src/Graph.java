@@ -204,7 +204,7 @@ public class Graph implements Iterable<Integer> {
         int currentIndex = seq.indexOf(stop);
         path.add(stop);
         for (int i = currentIndex - 1; i >= 0; --i) {
-            if (isAdjacent(seq.get(i), currentIndex)) {
+            if (isAdjacent(seq.get(i), seq.get(currentIndex))) {
                 currentIndex = i;
                 path.add(seq.get(currentIndex));
             }
