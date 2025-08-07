@@ -209,7 +209,9 @@ public class Graph implements Iterable<Integer> {
                 path.add(seq.get(currentIndex));
             }
         }
-        return path.reversed();
+        // return path.reversed(); // Java 21
+        Collections.reverse(path); // Java 17
+        return path;
     }
 
     public List<Integer> topologicalSort() {

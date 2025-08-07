@@ -165,8 +165,8 @@ public class TestGraph {
 
         List<Integer> p03 = g.path(0, 3);
         // 路径应从 start 到 stop；允许多种具体路径，这里链式唯一
-        assertThat(p03.getFirst()).isEqualTo(0);
-        assertThat(p03.getLast()).isEqualTo(3);
+        assertThat(p03.get(0)).isEqualTo(0);
+        assertThat(p03.get(p03.size() - 1)).isEqualTo(3);
         // 所有相邻对都应是图中存在的边
         for (int i = 0; i + 1 < p03.size(); i++) {
             assertWithMessage("Adjacent pair in returned path must be an edge.")
@@ -280,7 +280,7 @@ public class TestGraph {
         g.addEdge(3, 4);
         List<Integer> result = g.dfs(0);
         assertThat(result).contains(4);
-        assertThat(result.getFirst()).isEqualTo(0);  // 起点
+        assertThat(result.get(0)).isEqualTo(0);  // 起点
     }
 
     @Test
@@ -293,8 +293,8 @@ public class TestGraph {
         assertThat(g.pathExists(3, 0)).isFalse();
 
         List<Integer> path = g.path(0, 3);
-        assertThat(path.getFirst()).isEqualTo(0);
-        assertThat(path.getLast()).isEqualTo(3);
+        assertThat(path.get(0)).isEqualTo(0);
+        assertThat(path.get(path.size() - 1)).isEqualTo(3);
         assertThat(path).containsExactly(0, 1, 2, 3).inOrder();
     }
 
