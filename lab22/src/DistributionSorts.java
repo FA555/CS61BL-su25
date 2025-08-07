@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DistributionSorts {
@@ -30,20 +31,23 @@ public class DistributionSorts {
     /* A helper method for radix sort. Modifies ARR to be sorted according to
        DIGIT-th digit. When DIGIT is equal to 0, sort the numbers by the
        rightmost digit of each number. */
+    @SuppressWarnings("unchecked")
     private static void countingSortOnDigit(int[] arr, int digit) {
-        // TODO: YOUR CODE HERE
-        int[] counts = new int[10];
-        int[][] bucket = new int[10][arr.length];
+        // DONE: YOUR CODE HERE
+        ArrayList<Integer>[] bucket = (ArrayList<Integer>[]) new ArrayList[10];
+        for (int i = 0; i < bucket.length; ++i) {
+            bucket[i] = new ArrayList<>();
+        }
 
         for (int num : arr) {
             int d = getDigit(num, digit);
-            bucket[d][counts[d]++] = num;
+            bucket[d].add(num);
         }
 
         int index = 0;
-        for (int i = 0; i < bucket.length; ++i) {
-            for (int j = 0; j < counts[i]; ++j) {
-                arr[index++] = bucket[i][j];
+        for (ArrayList<Integer> integers : bucket) {
+            for (int num : integers) {
+                arr[index++] = num;
             }
         }
     }
