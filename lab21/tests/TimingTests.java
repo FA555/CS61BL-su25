@@ -39,8 +39,8 @@ public class TimingTests {
 
         /* Run the timing tests and store the results. */
         // DONE: You can comment out the tests you don't want to run.
-        charts.add(timeHeapSort());
-        charts.add(timeMergeSort());
+//        charts.add(timeHeapSort());
+//        charts.add(timeMergeSort());
 //        charts.add(timeInsertionSort());
 //        charts.add(timeSelectionSort());
         charts.add(timeQuickSort());
@@ -105,6 +105,7 @@ public class TimingTests {
             Stopwatch sw = new Stopwatch();
             SelectionSort.sort(arr);
             times.add(sw.elapsedTime());
+            checkArraySorted(arr);
         }
 
         TimingData td = new TimingData(Ns, times);
@@ -128,6 +129,7 @@ public class TimingTests {
             Stopwatch sw = new Stopwatch();
             int [] res = MergeSort.sort(arr);
             times.add(sw.elapsedTime());
+            checkArraySorted(res);
         }
 
         TimingData td = new TimingData(Ns, times);
@@ -150,6 +152,7 @@ public class TimingTests {
             Stopwatch sw = new Stopwatch();
             int [] res = QuickSort.sort(arr);
             times.add(sw.elapsedTime());
+            checkArraySorted(arr);
         }
 
         TimingData td = new TimingData(Ns, times);

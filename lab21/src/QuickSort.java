@@ -50,22 +50,19 @@ public class QuickSort {
     private static int[] partition(int[] arr, int start, int end) {
         // DONE: Implement partition
         int pivot = arr[start];
-        int lessThanEnd = start + 1;
-        int greaterThanStart = end - 1;
-        for (int i = start + 1; i <= greaterThanStart; ) {
+        int lessThanEnd = start;
+        int greaterThanStart = end;
+        for (int i = start + 1; i < greaterThanStart; ) {
             if (arr[i] < pivot) {
-                swap(arr, i, lessThanEnd);
-                ++lessThanEnd;
-                ++i;
+                swap(arr, i++, ++lessThanEnd);
             } else if (arr[i] > pivot) {
-                swap(arr, i, greaterThanStart);
-                --greaterThanStart;
+                swap(arr, i, --greaterThanStart);
             } else {
                 ++i;
             }
         }
-        swap(arr, start, lessThanEnd - 1);
-        return new int[]{lessThanEnd - 1, greaterThanStart + 1};
+        swap(arr, start, lessThanEnd);
+        return new int[]{lessThanEnd, greaterThanStart};
     }
 
     private static void swap(int[] arr, int i, int j) {
